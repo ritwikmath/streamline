@@ -1,16 +1,15 @@
 import json
 import os
-from .application import app
-from .interfaces import Config
+from core.application import app
+from core.interfaces import Config
 
 
 class LocalCache(Config):
     store = {}
 
     @classmethod
-    def store_value(cls, **kwargs):
-        for key, value in kwargs.items():
-            cls.store[key] = value
+    def store_value(cls, key, value, /):
+        cls.store[key] = value
 
     @classmethod
     def get_value(cls, key: str) -> any:

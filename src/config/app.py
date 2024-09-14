@@ -1,6 +1,6 @@
 import os
 import sys
-from config.interface import ConfigInterface
+from core.interfaces import ConfigInterface
 
 
 class AppConfig(ConfigInterface):

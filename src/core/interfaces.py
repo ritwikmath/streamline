@@ -11,3 +11,10 @@ class Config(ABC):
     @abstractmethod
     def get_value(cls, **kwargs) -> None:
         ...
+
+
+
+class ConfigInterface(ABC):
+    @abstractmethod
+    def get_configurations(self) -> object:
+        ...

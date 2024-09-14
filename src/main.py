@@ -7,6 +7,5 @@ Bootstrap()
 
 
 if __name__ == "__main__":
-    Bootstrap()
     app.cache.store_value("surname", "math")
     print(app.cache.get_value("surname"))

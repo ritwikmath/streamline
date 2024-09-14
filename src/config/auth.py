@@ -1,5 +1,5 @@
 import os
-from config.interface import ConfigInterface
+from core.interfaces import ConfigInterface
 
 
 class AuthConfig(ConfigInterface):
