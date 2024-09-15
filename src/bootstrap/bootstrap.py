@@ -7,7 +7,7 @@ import importlib
 
 def load_config():
     config = configparser.ConfigParser()
-    config.read(os.path.join(app.config.app["ROOT"], "config.ini"))
+    config.read(os.path.join(app.config.APP_ROOT, "config.ini"))
     cache_driver_name = config["default"]["cache"]
     cache_driver = importlib.import_module("core.cacheDriver")
     app.cache = getattr(cache_driver, f"{cache_driver_name.capitalize()}Cache")

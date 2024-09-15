@@ -11,7 +11,7 @@ class CacheConfig(ConfigInterface):
                 },
                 "file": {
                     "path": os.getenv("CACHE_FILE_LOCATION", "resources/cache"),
-                    "name": os.getenv("CACHE_FILE_NAME", "cache.json")
+                    "name": os.getenv("CACHE_FILE_NAME", ".cache")
                 },
                 "database": {
                     "table": os.getenv("CACHE_TABLE", "cache")
