@@ -27,6 +27,14 @@ class Application:
     @cache.setter
     def cache(self, driver, /):
         self.__cache = driver
+    
+    @property
+    def logger(self):
+        return self.__logger
+
+    @logger.setter
+    def logger(self, driver, /):
+        self.__logger = driver
 
     def serve(self, *args, **kwargs):
         ...

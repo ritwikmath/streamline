@@ -80,7 +80,7 @@ class RedisCache(Config):
             elif expire == "px":
                 redis_conn.psetex(key_name, exp_time, value)
             else:
-                raise ValueError("Redis expiration supports ex & px")
+                raise ValueError("Redis expiration supports ex & px. Sample: key_name:ex:10")
         else:
             redis_conn.set(key_name, value)
 
