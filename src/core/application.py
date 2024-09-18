@@ -1,4 +1,5 @@
 from core.dataTypes import Dictionary
+from core.protocols import LoggerProtocol, CacheProtocol
 
 
 class Application:
@@ -21,7 +22,7 @@ class Application:
             self.__config[key] = value
     
     @property
-    def cache(self):
+    def cache(self) -> CacheProtocol:
         return self.__cache
 
     @cache.setter
@@ -29,7 +30,7 @@ class Application:
         self.__cache = driver
     
     @property
-    def logger(self):
+    def logger(self) -> LoggerProtocol:
         return self.__logger
 
     @logger.setter
