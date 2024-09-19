@@ -4,6 +4,7 @@ from core.logDriver import Logger
 import configparser
 import os
 import importlib
+from http_router import Router
 
 
 def load_config(config):
@@ -17,6 +18,9 @@ def load_config(config):
 def load_logger():
     app.logger = Logger().logger
 
+def load_router():
+    app.router = Router()
+
 class Bootstrap:
     def __init__(self):
         Config()
@@ -24,3 +28,4 @@ class Bootstrap:
         config.read(os.path.join(app.config.APP_ROOT, "config.ini"))
         load_logger()
         load_config(config)
+        load_router()

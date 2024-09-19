@@ -1,8 +1,8 @@
 import os
-from core.application import app
-from core.interfaces import Config
 import pickle
 import redis
+from core.application import app
+from core.interfaces import Config
 
 
 class LocalCache(Config):

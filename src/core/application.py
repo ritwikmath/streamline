@@ -1,5 +1,6 @@
 from core.dataTypes import Dictionary
 from core.protocols import LoggerProtocol, CacheProtocol
+from http_router import Router
 
 
 class Application:
@@ -36,9 +37,14 @@ class Application:
     @logger.setter
     def logger(self, driver, /):
         self.__logger = driver
+    
+    @property
+    def router(self) -> Router:
+        return self.__router
 
-    def serve(self, *args, **kwargs):
-        ...
+    @router.setter
+    def router(self, driver, /):
+        self.__router = driver
 
 
 app = Application()
