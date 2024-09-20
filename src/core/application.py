@@ -6,6 +6,8 @@ from http_router import Router
 class Application:
     instance = None
     __config = Dictionary()
+    __cache = None
+    __before_request = []
 
     def __new__(cls, *args, **kwargs):
         if cls.instance is None:
@@ -24,6 +26,8 @@ class Application:
     
     @property
     def cache(self) -> CacheProtocol:
+        if not self.__cache:
+            raise AttributeError("Cache is not instantiated for this application")
         return self.__cache
 
     @cache.setter
@@ -45,6 +49,10 @@ class Application:
     @router.setter
     def router(self, driver, /):
         self.__router = driver
+    
+    def handle(self, path, method, /):
+        match = self.router(path, method)
+        self.logger.info(match.target(**match.params))
 
 
 app = Application()

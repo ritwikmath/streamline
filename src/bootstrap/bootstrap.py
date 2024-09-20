@@ -10,10 +10,10 @@ from http_router import Router
 def load_config(config):
     try:
         cache_driver_name = config["default"]["cache"]
-    except:
-        cache_driver_name = "local"
-    cache_driver = importlib.import_module("core.cacheDriver")
-    app.cache = getattr(cache_driver, f"{cache_driver_name.capitalize()}Cache")
+        cache_driver = importlib.import_module("core.cacheDriver")
+        app.cache = getattr(cache_driver, f"{cache_driver_name.capitalize()}Cache")
+    except KeyError:
+        app.logger.warn("Cache support is not available for this application")
 
 def load_logger():
     app.logger = Logger().logger
@@ -29,3 +29,4 @@ class Bootstrap:
         load_logger()
         load_config(config)
         load_router()
+        importlib.import_module("controllers")
