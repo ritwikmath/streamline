@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from sqlalchemy.orm import Session
 
 
-class Config(ABC):
+class CacheInterface(ABC):
     @classmethod
     @abstractmethod
     def store_value(cls, **kwargs) -> None:
@@ -17,4 +18,15 @@ class Config(ABC):
 class ConfigInterface(ABC):
     @abstractmethod
     def get_configurations(self) -> object:
+        ...
+
+class DatabaseInterface(ABC):
+    @classmethod
+    @abstractmethod
+    def connect(self):
+        ...
+    
+    @classmethod
+    @abstractmethod
+    def client(self) -> Session:
         ...

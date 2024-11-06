@@ -1,5 +1,5 @@
 from core.dataTypes import Dictionary
-from core.protocols import LoggerProtocol, CacheProtocol
+from core.protocols import LoggerProtocol, CacheProtocol, DBProtocol
 from http_router import Router
 
 
@@ -49,6 +49,14 @@ class Application:
     @router.setter
     def router(self, driver, /):
         self.__router = driver
+    
+    @property
+    def db(self) -> DBProtocol:
+        return self.__db
+
+    @db.setter
+    def db(self, driver, /):
+        self.__db = driver
     
     def handle(self, path, method, /):
         match = self.router(path, method)

@@ -1,2 +1,4 @@
 redis
 http-router
+SQLAlchemy
+psycopg[binary,pool]

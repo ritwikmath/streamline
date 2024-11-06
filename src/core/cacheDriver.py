@@ -2,10 +2,10 @@ import os
 import pickle
 import redis
 from core.application import app
-from core.interfaces import Config
+from core.interfaces import CacheInterface
 
 
-class LocalCache(Config):
+class LocalCache(CacheInterface):
     store = {}
 
     @classmethod
@@ -17,7 +17,7 @@ class LocalCache(Config):
         return cls.store[key]
 
 
-class FileCache(Config):
+class FileCache(CacheInterface):
     @classmethod
     def __get_file_path(cls):
         path, file_name = app.config.cache["file"].values()
@@ -51,7 +51,7 @@ class FileCache(Config):
             return None
 
 
-class RedisCache(Config):
+class RedisCache(CacheInterface):
     __redis = None
     
     @classmethod
