@@ -14,19 +14,19 @@ class CacheInterface(ABC):
         ...
 
 
-
 class ConfigInterface(ABC):
     @abstractmethod
     def get_configurations(self) -> object:
         ...
 
+
 class DatabaseInterface(ABC):
     @classmethod
     @abstractmethod
-    def connect(self):
+    def connect(cls):
         ...
     
     @classmethod
     @abstractmethod
-    def client(self) -> Session:
+    def client(cls) -> Session:
         ...

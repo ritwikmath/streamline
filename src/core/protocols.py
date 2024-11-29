@@ -1,6 +1,7 @@
 from typing import Protocol
 from sqlalchemy.orm import Session
 
+
 class LoggerProtocol(Protocol):
     def info(self, message: str) -> str:
         ...
@@ -14,6 +15,7 @@ class LoggerProtocol(Protocol):
     def error(self, message: str) -> str:
         ...
 
+
 class CacheProtocol(Protocol):
     def store_value(self, key: str, value: any) -> None:
         ...
@@ -21,6 +23,27 @@ class CacheProtocol(Protocol):
     def get_value(self, key: str) -> any:
         ...
 
+
 class DBProtocol(Protocol):
     def client(self) -> Session:
+        ...
+
+
+class RequestProtocol(Protocol):
+    def json(self) -> any:
+        ...
+
+    def args(self) -> dict:
+        ...
+
+    def base_url(self) -> str:
+        ...
+
+    def method(self) -> str:
+        ...
+
+    def url(self) -> str:
+        ...
+
+    def path(self) -> str:
         ...

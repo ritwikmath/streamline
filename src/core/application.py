@@ -1,5 +1,5 @@
-from core.dataTypes import Dictionary
-from core.protocols import LoggerProtocol, CacheProtocol, DBProtocol
+from .dataTypes import Dictionary
+from .protocols import LoggerProtocol, CacheProtocol, DBProtocol, RequestProtocol
 from http_router import Router
 
 
@@ -8,6 +8,10 @@ class Application:
     __config = Dictionary()
     __cache = None
     __before_request = []
+    __db = None
+    __router = None
+    __logger = None
+    __request = None
 
     def __new__(cls, *args, **kwargs):
         if cls.instance is None:
@@ -57,9 +61,22 @@ class Application:
     @db.setter
     def db(self, driver, /):
         self.__db = driver
+
+    @property
+    def request(self) -> RequestProtocol:
+        return self.__request
+
+    @request.setter
+    def request(self, data, /):
+        self.__request = data
     
-    def handle(self, path, method, /):
+    def handle(self, path, method, /, *, payload=None):
         match = self.router(path, method)
+        print(match)
+        app.request = Dictionary({
+            "json": payload,
+            "url": path
+        })
         self.logger.info(match.target(**match.params))
 
 

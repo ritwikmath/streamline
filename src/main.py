@@ -6,4 +6,12 @@ app = Application()
 Bootstrap()
 
 if __name__ == "__main__":
-    app.handle("/simple/12", "GET")
+    # payload = {
+    #     "name": "SpongeBob",
+    #     "fullname": "SpongeBob SquarePants"
+    # }
+    # app.handle("/simple", "POST", payload=payload)
+    payload = {
+        "name": "Sponge Bob"
+    }
+    app.handle("/simple/5", "PATCH", payload=payload)
