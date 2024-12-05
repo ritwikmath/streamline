@@ -2,31 +2,27 @@ from core.application import app
 from sqlalchemy import select
 from database.models.userAccount import User
 from sqlalchemy import update
+from validators.UserValidator import UserValidator
 
 
 @app.router.get('/simple/{var}')
 def simple(var):
     with app.db.client() as session:
-        spongebob = User(
-            name="spongebob",
-            fullname="Spongebob Squarepants",
-        )
-        session.add(spongebob)
-        query = select(User)
-        for user in session.scalars(query):
-            app.logger.info(user)
-        session.commit()
+        stmt = select(User)
+        response = session.scalars(stmt)
         session.close()
-    app.cache.store_value("surname", "math")
-    app.logger.info(app.cache.get_value("surname"))
-    app.logger.info(var)
+    # app.cache.store_value("surname", "math")
+    # app.logger.info(app.cache.get_value("surname"))
+    app.logger.info(response)
     return 'result from the fn'
 
 
 @app.router.post('/simple')
-def simple_store(payload):
+def simple_store():
+    payload = app.request.json
     with app.db.client() as session:
-        spongebob = User(**payload)
+        validated_user = UserValidator(**payload)
+        spongebob = User(**validated_user.dict())
         session.add(spongebob)
         query = select(User)
         for user in session.scalars(query):
