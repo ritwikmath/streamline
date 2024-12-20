@@ -2,6 +2,7 @@ from .dataTypes import Dictionary
 from .protocols import LoggerProtocol, CacheProtocol, DBProtocol, RequestProtocol
 from http_router import Router
 from pydantic import ValidationError
+from .wrappers import parse_event
 
 
 class Application:
@@ -71,7 +72,9 @@ class Application:
     def request(self, data, /):
         self.__request = data
     
-    def handle(self, path, method, /, *, payload=None):
+
+    @parse_event
+    def handle(self, path, method, payload, /):
         match = self.router(path, method)
         app.request = Dictionary({
             "json": payload,
@@ -81,6 +84,7 @@ class Application:
         try:
             response = match.target(**params)
             self.logger.info(response)
+            return response
         except ValidationError as ex:
             self.logger.error(ex)
 

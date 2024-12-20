@@ -22,7 +22,7 @@ def simple_store():
     payload = app.request.json
     with app.db.client() as session:
         validated_user = UserValidator(**payload)
-        spongebob = User(**validated_user.dict())
+        spongebob = User(**validated_user.model_dump())
         session.add(spongebob)
         query = select(User)
         for user in session.scalars(query):
