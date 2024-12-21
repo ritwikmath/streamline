@@ -56,6 +56,7 @@ class RedisCache(CacheInterface):
     
     @classmethod
     def __get_connection(cls):
+        print("redishost", app.config.cache["redis"]["host"])
         if not cls.__redis:
             cls.__redis = redis.Redis(
                 host=app.config.cache["redis"]["host"],

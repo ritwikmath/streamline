@@ -10,5 +10,5 @@ class AppConfig(ConfigInterface):
             "ENV": os.getenv("ENV", "staging"),
             "DEBUG": os.getenv("DEBUG", False),
             "CIPHER": os.getenv("CIPHER", "Base64"),
-            "APP_ROOT": os.path.abspath(sys.modules["__main__"].__file__.rstrip("main.py"))
+            "APP_ROOT": os.path.abspath(sys.modules["__main__"].__file__.rstrip("lambda_function.py"))
         }

@@ -20,18 +20,20 @@ def simple(var):
 @app.router.post('/simple')
 def simple_store():
     payload = app.request.json
-    with app.db.client() as session:
-        validated_user = UserValidator(**payload)
-        spongebob = User(**validated_user.model_dump())
-        session.add(spongebob)
-        query = select(User)
-        for user in session.scalars(query):
-            app.logger.info(user)
-        response = f"{spongebob}"
-        print(response)
-        session.commit()
-        session.close()
-    return response
+    app.cache.store_value("surname", "math")
+    app.logger.info(app.cache.get_value("surname"))
+    # with app.db.client() as session:
+    #     validated_user = UserValidator(**payload)
+    #     spongebob = User(**validated_user.model_dump())
+    #     session.add(spongebob)
+    #     query = select(User)
+    #     for user in session.scalars(query):
+    #         app.logger.info(user)
+    #     response = f"{spongebob}"
+    #     print(response)
+    #     session.commit()
+    #     session.close()
+    return "Hello"
 
 
 @app.router.patch('/simple/{var}')

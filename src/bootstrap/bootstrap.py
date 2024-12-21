@@ -37,8 +37,7 @@ def load_db(config):
     except KeyError:
         app.logger.warn("Database support is not available for this application")
 
-def load_secrets(config):
-    secret_service_portal = config["services"]["secret"]
+def load_secrets():
     secret_name = "CONFIG"
     session = boto3.session.Session()
     client = session.client(
@@ -64,15 +63,16 @@ def load_secrets(config):
     else:
         secret_dict = json.loads(get_secret_value_response["SecretString"])
         for key, val in secret_dict.items():
+            print(key, val)
             os.environ[key] = val
 
 
 class Bootstrap:
     def __init__(self):
+        load_secrets()
         Config()
         config = configparser.ConfigParser()
         config.read(os.path.join(app.config.APP_ROOT, "config.ini"))
-        load_secrets(config)
         load_logger()
         load_config(config)
         load_router()
