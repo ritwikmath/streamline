@@ -1,6 +1,7 @@
 import os
 import pickle
 import redis
+from redis.cluster import RedisCluster
 from core.application import app
 from core.interfaces import CacheInterface
 
@@ -56,12 +57,27 @@ class RedisCache(CacheInterface):
     
     @classmethod
     def __get_connection(cls):
-        print("redishost", app.config.cache["redis"]["host"])
         if not cls.__redis:
-            cls.__redis = redis.Redis(
-                host=app.config.cache["redis"]["host"],
-                port=app.config.cache["redis"]["port"],
-                decode_responses=True
+            host=app.config.cache["redis"]["host"]
+            port=app.config.cache["redis"]["port"]
+            # Attempt to connect to the Redis server
+            # cls.__redis = redis.Redis(
+            #     host=host,
+            #     port=port,
+            #     decode_responses=True,
+            #     socket_connect_timeout=1,
+            #     socket_timeout=1
+            # )
+
+            # Attempt to connect to the Redis cluster
+            cls.__redis = RedisCluster(
+                host=host,
+                port=port,
+                decode_responses=True,
+                ssl=True,
+                ssl_cert_reqs="none",
+                socket_connect_timeout=1,
+                socket_timeout=1
             )
         return cls.__redis
 

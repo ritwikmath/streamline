@@ -43,7 +43,6 @@ def simple_update(var):
         spongebob = session.execute(select(User).filter_by(id=int(var))).scalar_one()
         spongebob.name = payload["name"]
         response = f"{spongebob}"
-        print(response)
         session.commit()
         session.close()
     return response

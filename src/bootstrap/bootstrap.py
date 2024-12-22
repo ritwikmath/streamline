@@ -63,7 +63,6 @@ def load_secrets():
     else:
         secret_dict = json.loads(get_secret_value_response["SecretString"])
         for key, val in secret_dict.items():
-            print(key, val)
             os.environ[key] = val
 
 
