@@ -1,3 +1,4 @@
+import json
 from .dataTypes import Dictionary
 from .protocols import LoggerProtocol, CacheProtocol, DBProtocol, RequestProtocol
 from http_router import Router
@@ -81,12 +82,27 @@ class Application:
             "url": path
         })
         params = match.params or {}
+        response = None
         try:
             response = match.target(**params)
-            self.logger.info(response)
-            return response
+            self.logger.info(f"Data: {response[0]}, status: {response[1]}")
+            return {
+                "body": json.dumps(  # Body
+                    response[0]
+                ),
+                "statusCode": int(response[1])  # Status code
+            }
         except ValidationError as ex:
             self.logger.error(ex)
+        except KeyError as key_ex:
+            self.logger.error(str(key_ex))
+            self.logger.error(f"""Response type is not valid. Controller {match.target.__name__} returned \
+{type(response).__name__} instead of a tuple""")
+            raise Exception("Response type is not valid")
+        except ValueError as value_ex:
+            self.logger.error(f"""Response status is not valid. Controller {match.target.__name__} \
+returned {response[1]} instead of a int""")
+            raise Exception("Response type is not valid")
 
 
 app = Application()

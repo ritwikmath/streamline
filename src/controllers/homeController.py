@@ -33,7 +33,7 @@ def simple_store():
     #     print(response)
     #     session.commit()
     #     session.close()
-    return "Hello"
+    return {"message": "Hello"}, 200
 
 
 @app.router.patch('/simple/{var}')
