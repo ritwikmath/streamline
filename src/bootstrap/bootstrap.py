@@ -37,6 +37,7 @@ def load_db(config):
     except KeyError:
         app.logger.warn("Database support is not available for this application")
 
+
 def load_secrets():
     secret_name = "CONFIG"
     session = boto3.session.Session()

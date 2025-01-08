@@ -6,9 +6,10 @@ app = Application()
 Bootstrap()
 
 
-def lambda_handler(event, context):
-    response = app.handle(event, context)
+def lambda_handler(aws_event, context):
+    response = app.handle(aws_event, context)
     return response
+
 
 if __name__ == "__main__":
     event = {
