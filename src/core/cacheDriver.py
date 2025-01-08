@@ -54,31 +54,31 @@ class FileCache(CacheInterface):
 
 class RedisCache(CacheInterface):
     __redis = None
-    
+
     @classmethod
     def __get_connection(cls):
         if not cls.__redis:
-            host=app.config.cache["redis"]["host"]
-            port=app.config.cache["redis"]["port"]
+            host = app.config.cache["redis"]["host"]
+            port = app.config.cache["redis"]["port"]
             # Attempt to connect to the Redis server
-            # cls.__redis = redis.Redis(
-            #     host=host,
-            #     port=port,
-            #     decode_responses=True,
-            #     socket_connect_timeout=1,
-            #     socket_timeout=1
-            # )
-
-            # Attempt to connect to the Redis cluster
-            cls.__redis = RedisCluster(
+            cls.__redis = redis.Redis(
                 host=host,
                 port=port,
                 decode_responses=True,
-                ssl=True,
-                ssl_cert_reqs="none",
                 socket_connect_timeout=1,
                 socket_timeout=1
             )
+
+            # Attempt to connect to the Redis cluster
+            # cls.__redis = RedisCluster(
+            #     host=host,
+            #     port=port,
+            #     decode_responses=True,
+            #     ssl=True,
+            #     ssl_cert_reqs="none",
+            #     socket_connect_timeout=1,
+            #     socket_timeout=1
+            # )
         return cls.__redis
 
     @classmethod
@@ -87,7 +87,7 @@ class RedisCache(CacheInterface):
         if len(key_structure) == 1:
             key_name, expire, exp_time = key_structure[0], None, None
         elif len(key_structure) == 3:
-            key_name, expire, exp_time = key.split(":") 
+            key_name, expire, exp_time = key.split(":")
         else:
             raise ValueError("Wrong structure. Sample: key_name:ex:10")
         redis_conn = cls.__get_connection()
