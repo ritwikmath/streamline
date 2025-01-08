@@ -1,0 +1,19 @@
+FROM python:3.11
+
+RUN apt update && apt install zip
+
+WORKDIR /app
+
+COPY ./requirements.txt ./requirements.txt
+
+RUN python3.11 -m venv create_layer
+
+RUN . ./create_layer/bin/activate
+
+RUN pip install -r requirements.txt --platform=manylinux2014_x86_64 --only-binary=:all: --target ./create_layer/lib/python3.11/site-packages
+
+RUN mkdir python
+RUN cp -r create_layer/lib python/
+RUN zip -r layer_content.zip python
+
+ENTRYPOINT ["ls", "-al"]
