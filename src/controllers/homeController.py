@@ -7,14 +7,14 @@ from validators.UserValidator import UserValidator
 
 @app.router.get('/simple/{var}')
 def simple(var):
-    with app.db.client() as session:
-        stmt = select(User)
-        response = session.scalars(stmt)
-        session.close()
+    # with app.db.client() as session:
+    #     stmt = select(User)
+    #     response = session.scalars(stmt)
+    #     session.close()
     # app.cache.store_value("surname", "math")
     # app.logger.info(app.cache.get_value("surname"))
-    app.logger.info(response)
-    return 'result from the fn'
+    # app.logger.info(response)
+    return 'result from the fn', 200
 
 
 @app.router.post('/simple')
