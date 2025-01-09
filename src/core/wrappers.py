@@ -17,6 +17,11 @@ def parse_event(controller):
             return controller(self, http_path, http_method, body)
         except Exception as ex:
             print(ex)
-            return "Something went wrong"
+            return {
+                "status_code": 500,
+                "body": {
+                    "message": "Something Went Wrong"
+                }
+            }
 
     return inner_function

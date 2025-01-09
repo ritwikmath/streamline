@@ -5,3 +5,6 @@
 __pycache__/
 .env
 *.zp
+.aws-sam
+template.yml
+output.txt
