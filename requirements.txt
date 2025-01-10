@@ -1,3 +1,4 @@
+redis
 http-router
 pydantic[email]
 boto3
