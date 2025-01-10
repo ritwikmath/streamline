@@ -1,8 +1,10 @@
 from core.interfaces import DatabaseInterface
-from sqlalchemy import create_engine
-from contextlib import contextmanager
-from sqlalchemy.orm import Session
 from core.application import app
+
+if app.config.database_driver:
+    from sqlalchemy import create_engine
+    from contextlib import contextmanager
+    from sqlalchemy.orm import Session
 
 
 class PostgresClient(DatabaseInterface):

@@ -1,6 +1,3 @@
-redis
 http-router
-SQLAlchemy
-psycopg[binary,pool]
 pydantic[email]
 boto3

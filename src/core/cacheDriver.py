@@ -1,9 +1,11 @@
 import os
 import pickle
-import redis
-from redis.cluster import RedisCluster
 from core.application import app
 from core.interfaces import CacheInterface
+
+if app.config.cache_driver:
+    import redis
+    # from redis.cluster import RedisCluster
 
 
 class LocalCache(CacheInterface):

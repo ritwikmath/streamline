@@ -12,12 +12,12 @@ import boto3
 from botocore.exceptions import ClientError
 
 
-def load_config(config):
+def load_cache(config):
     try:
-        cache_driver_name = config["default"]["cache"]
-        cache_driver = importlib.import_module("core.cacheDriver")
-        app.cache = getattr(cache_driver, f"{cache_driver_name.capitalize()}Cache")
-    except KeyError:
+        if cache_driver_name := app.config.cache_driver:
+            cache_driver = importlib.import_module("core.cacheDriver")
+            app.cache = getattr(cache_driver, f"{cache_driver_name.capitalize()}Cache")
+    except (KeyError, AttributeError):
         app.logger.warn("Cache support is not available for this application")
 
 
@@ -31,10 +31,10 @@ def load_router():
 
 def load_db(config):
     try:
-        db_driver_name = config["default"]["database"]
-        db_driver = importlib.import_module("core.dbDriver")
-        app.db = getattr(db_driver, f"{db_driver_name.capitalize()}Client")
-    except KeyError:
+        if db_driver_name := app.config.database_driver:
+            db_driver = importlib.import_module("core.dbDriver")
+            app.db = getattr(db_driver, f"{db_driver_name.capitalize()}Client")
+    except (KeyError, AttributeError):
         app.logger.warn("Database support is not available for this application")
 
 
@@ -73,8 +73,9 @@ class Bootstrap:
         Config()
         config = configparser.ConfigParser()
         config.read(os.path.join(app.config.APP_ROOT, "config.ini"))
+        app.config.update({f"{key}_driver": config["default"][key] for key in config["default"]})
         load_logger()
-        load_config(config)
+        load_cache(config)
         load_router()
         load_db(config)
         importlib.import_module("controllers")

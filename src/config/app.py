@@ -9,8 +9,6 @@ class AppConfig(ConfigInterface):
         self.file_path = Path(__file__).resolve()
 
     def get_configurations(self) -> object:
-        file_path = Path(__file__).resolve()
-
         return {
             "APP_NAME": os.getenv("APP_NAME", "API_FIRST"),
             "ENV": os.getenv("ENV", "staging"),

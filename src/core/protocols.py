@@ -1,5 +1,4 @@
 from typing import Protocol
-from sqlalchemy.orm import Session
 
 
 class LoggerProtocol(Protocol):
@@ -25,7 +24,7 @@ class CacheProtocol(Protocol):
 
 
 class DBProtocol(Protocol):
-    def client(self) -> Session:
+    def client(self) -> any:
         ...
 
 

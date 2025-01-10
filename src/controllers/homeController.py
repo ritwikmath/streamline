@@ -1,7 +1,7 @@
 from core.application import app
-from sqlalchemy import select
-from database.models.userAccount import User
-from sqlalchemy import update
+# from sqlalchemy import select
+# from database.models.userAccount import User
+# from sqlalchemy import update
 from validators.UserValidator import UserValidator
 
 
@@ -20,8 +20,8 @@ def simple(var):
 @app.router.post('/simple')
 def simple_store():
     payload = app.request.json
-    app.cache.store_value("surname", "math")
-    app.logger.info(app.cache.get_value("surname"))
+    # app.cache.store_value("surname", "math")
+    # app.logger.info(app.cache.get_value("surname"))
     # with app.db.client() as session:
     #     validated_user = UserValidator(**payload)
     #     spongebob = User(**validated_user.model_dump())
@@ -33,7 +33,7 @@ def simple_store():
     #     print(response)
     #     session.commit()
     #     session.close()
-    return {"message": "Hello"}, 200
+    return {"message": payload}, 200
 
 
 @app.router.patch('/simple/{var}')

@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from sqlalchemy.orm import Session
 
 
 class CacheInterface(ABC):
@@ -28,5 +27,5 @@ class DatabaseInterface(ABC):
     
     @classmethod
     @abstractmethod
-    def client(cls) -> Session:
+    def client(cls) -> any:
         ...

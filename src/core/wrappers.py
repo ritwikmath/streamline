@@ -1,5 +1,6 @@
 from functools import wraps
 import json
+import traceback
 
 
 def parse_event(controller):
@@ -16,7 +17,7 @@ def parse_event(controller):
 
             return controller(self, http_path, http_method, body)
         except Exception as ex:
-            print(ex)
+            print(traceback.format_exc())
             return {
                 "status_code": 500,
                 "body": {
