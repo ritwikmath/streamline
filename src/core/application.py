@@ -4,6 +4,7 @@ from .protocols import LoggerProtocol, CacheProtocol, DBProtocol, RequestProtoco
 from http_router import Router
 from pydantic import ValidationError
 from .wrappers import parse_event
+from uuid import uuid4
 
 
 class Application:
@@ -77,18 +78,24 @@ class Application:
     @parse_event
     def handle(self, path, method, payload, /):
         match = self.router(path, method)
+        unique_id = uuid4()
         app.request = Dictionary({
             "json": payload,
-            "url": path
+            "url": path,
+            "request_id": unique_id
         })
         params = match.params or {}
         response = None
+        self.logger.info(json.dumps({"request_id": unique_id, "path": path, "request_body": payload, "params": params}, default=str, indent=4))
         try:
             response = match.target(**params)
-            self.logger.info(f"Data: {response[0]}, status: {response[1]}")
+            self.logger.info(json.dumps({"request_id": unique_id, "response_body": response[0], "status_code": response[1]}, default=str, indent=4))
             return {
-                "body": json.dumps(  # Body
-                    response[0]
+                "body": json.loads( # Body
+                    json.dumps(
+                        response[0],
+                        default=str
+                    )
                 ),
                 "statusCode": int(response[1])  # Status code
             }

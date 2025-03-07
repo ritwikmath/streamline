@@ -46,3 +46,6 @@ class RequestProtocol(Protocol):
 
     def path(self) -> str:
         ...
+    
+    def request_id(self) -> str:
+        ...

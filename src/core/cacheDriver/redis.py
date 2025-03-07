@@ -1,26 +1,6 @@
-import os
-import pickle
 from core.application import app
 from core.interfaces import CacheInterface
-
-if app.config.cache_driver:
-    import redis
-    # from redis.cluster import RedisCluster
-
-
-class LocalCache(CacheInterface):
-    store = {}
-
-    @classmethod
-    def store_value(cls, key, value, /):
-        cls.store[key] = value
-
-    @classmethod
-    def get_value(cls, key: str) -> any:
-        return cls.store[key]
-
-
-
+import redis
 
 class RedisCache(CacheInterface):
     __redis = None

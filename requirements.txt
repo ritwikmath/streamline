@@ -2,3 +2,5 @@ redis
 http-router
 pydantic[email]
 boto3
+SQLAlchemy
+psycopg[binary,pool]
